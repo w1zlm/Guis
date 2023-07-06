@@ -1,0 +1,713 @@
+-- Maded by w1zlm (w1zlm in discord)
+
+local function __name__()
+	local Name = ""
+	for _ = 1, 10, 1 do
+		Name = Name .. utf8.char(math.random(10, 1000))
+	end
+	return Name
+end
+
+local TS = game:GetService("TweenService")
+
+local PlayingTweens = {
+	["Switches"] = {
+		
+	},
+	["Sliders"] = {
+
+	}
+}
+
+local TweenStandarts = {
+	["Switch"] = {
+		["SwitchMovement"] = {},
+		["SwitchColorChange"] = {}
+	},
+	["Slider"] = {
+		["SliderColorChange"] = {}
+	}
+}
+
+local Player = game.Players.LocalPlayer
+local Mouse = Player:GetMouse()
+
+local UIS = game:GetService("UserInputService")
+
+local Holding = false
+
+UIS.InputBegan:Connect(function(input)
+	local inputType = input.UserInputType
+	if inputType == Enum.UserInputType.MouseButton1 then
+		Holding = true
+	end
+end)   
+
+UIS.InputEnded:Connect(function(input)
+	local inputType = input.UserInputType
+	if inputType == Enum.UserInputType.MouseButton1 then
+		Holding = false
+	end
+end)
+
+local Camera = game.Workspace.CurrentCamera
+
+local function new()
+	local Gui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
+	Gui.Name = __name__()
+	
+	local Frame = Instance.new("Frame", Gui)
+	Frame.Name = "Frame"
+	Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+	Frame.BackgroundTransparency = 1
+	Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Frame.Size = UDim2.new(0.5, 0, 0.5, 0)
+	
+	local BorderDW = Instance.new("Frame", Frame)
+	BorderDW.Name = "Border dw"
+	BorderDW.AnchorPoint = Vector2.new(0, 1)
+	BorderDW.BackgroundTransparency = 0
+	BorderDW.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	BorderDW.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	BorderDW.BorderMode = Enum.BorderMode.Outline
+	BorderDW.BorderSizePixel = 1
+	BorderDW.Position = UDim2.new(0, 0, 1, 0)
+	BorderDW.Size = UDim2.new(1, 0, 0, 5)
+	
+	local BorderDW2 = Instance.new("Frame", Frame)
+	BorderDW2.Name = "Border dw 2"
+	BorderDW2.AnchorPoint = Vector2.new(0, 1)
+	BorderDW2.BackgroundTransparency = 0
+	BorderDW2.BackgroundColor3 = Color3.fromRGB(145, 0, 0)
+	BorderDW2.BorderColor3 = Color3.fromRGB(145, 0, 0)
+	BorderDW2.BorderMode = Enum.BorderMode.Outline
+	BorderDW2.BorderSizePixel = 1
+	BorderDW2.Position = UDim2.new(0, 0, 1, -10)
+	BorderDW2.Size = UDim2.new(1, 0, 0, 2)
+	
+	local BorderUP = Instance.new("Frame", Frame)
+	BorderUP.Name = "Border up"
+	BorderUP.AnchorPoint = Vector2.new(0, 0)
+	BorderUP.BackgroundTransparency = 0
+	BorderUP.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	BorderUP.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	BorderUP.BorderMode = Enum.BorderMode.Outline
+	BorderUP.BorderSizePixel = 1
+	BorderUP.Position = UDim2.new(0, 0, 0, 0)
+	BorderUP.Size = UDim2.new(1, 0, 0, 5)
+
+	local BorderUP2 = Instance.new("Frame", Frame)
+	BorderUP2.Name = "Border up 2"
+	BorderUP2.AnchorPoint = Vector2.new(0, 0)
+	BorderUP2.BackgroundTransparency = 0
+	BorderUP2.BackgroundColor3 = Color3.fromRGB(145, 0, 0)
+	BorderUP2.BorderColor3 = Color3.fromRGB(145, 0, 0)
+	BorderUP2.BorderMode = Enum.BorderMode.Outline
+	BorderUP2.BorderSizePixel = 1
+	BorderUP2.Position = UDim2.new(0, 0, 0, 10)
+	BorderUP2.Size = UDim2.new(1, 0, 0, 2)
+	
+	local Menu = Instance.new("Frame", Frame)
+	Menu.Name = "Menu"
+	Menu.AnchorPoint = Vector2.new(0, 0)
+	Menu.BackgroundTransparency = 0.5
+	Menu.BackgroundColor3 = Color3.fromRGB(21, 19, 19)
+	Menu.BorderColor3 = Color3.fromRGB(21, 19, 19)
+	Menu.BorderMode = Enum.BorderMode.Outline
+	Menu.BorderSizePixel = 1
+	Menu.Position = UDim2.new(0, 0, 0, 20)
+	Menu.Size = UDim2.new(1, 0, 1, -40)
+	
+	local Border = Instance.new("Frame", Menu)
+	Border.Name = "Border"
+	Border.AnchorPoint = Vector2.new(0, 0)
+	Border.BackgroundTransparency = 0
+	Border.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Border.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Border.BorderMode = Enum.BorderMode.Outline
+	Border.BorderSizePixel = 1
+	Border.Position = UDim2.new(0.25, 0, 0, 0)
+	Border.Size = UDim2.new(0, 3, 1, 0)
+	
+	local Frame2 = Instance.new("Frame", Menu)
+	Frame2.Name = "Frame2"
+	Frame2.AnchorPoint = Vector2.new(0, 0)
+	Frame2.BackgroundTransparency = 1
+	Frame2.BorderMode = Enum.BorderMode.Outline
+	Frame2.BorderSizePixel = 0
+	Frame2.Position = UDim2.new(0, 0, 0, 0)
+	Frame2.Size = UDim2.new(0.25, 0, 1, 0)
+	
+	local Menus = Instance.new("Frame", Menu)
+	Menus.Name = "Menus"
+	Menus.AnchorPoint = Vector2.new(0, 0)
+	Menus.BackgroundTransparency = 1
+	Menus.BorderMode = Enum.BorderMode.Outline
+	Menus.BorderSizePixel = 1
+	Menus.Position = UDim2.new(0.25, 4, 0, 0)
+	Menus.Size = UDim2.new(0.75, -4, 1, 0)
+	
+	local Sections = Instance.new("ScrollingFrame", Menu)
+	Sections.Name = "Sections"
+	Sections.AnchorPoint = Vector2.new(0, 0)
+	Sections.BackgroundTransparency = 1
+	Sections.BorderMode = Enum.BorderMode.Outline
+	Sections.BorderSizePixel = 0
+	Sections.Position = UDim2.new(0, 0, 0, 0)
+	Sections.Size = UDim2.new(0.25, 0, 1, 0)
+	Sections.CanvasSize = UDim2.new(0, 0, 1, 0)
+	Sections.CanvasPosition = Vector2.new(0, 0)
+	
+	local UIGL = Instance.new("UIGridLayout", Sections)
+	UIGL.FillDirection = Enum.FillDirection.Horizontal
+	UIGL.FillDirectionMaxCells = 0
+	UIGL.HorizontalAlignment = Enum.HorizontalAlignment.Right
+	UIGL.SortOrder = Enum.SortOrder.LayoutOrder
+	UIGL.StartCorner = Enum.StartCorner.TopLeft
+	UIGL.VerticalAlignment = Enum.VerticalAlignment.Top
+	UIGL.CellPadding = UDim2.new(0, 5, 0, 5)
+	UIGL.CellSize = UDim2.new(1, 0, 0, 50)
+	
+	local Functions = {
+		["NewSection"] = nil
+	}
+	
+	Functions["NewSection"] = function(Name)
+		local Section = Instance.new("TextButton", Sections)
+		Section.Name = Name
+		Section.BackgroundColor3 = Color3.fromRGB(43, 41, 47)
+		Section.BorderColor3 = Color3.fromRGB(43, 41, 47)
+		Section.BorderMode = Enum.BorderMode.Inset
+		Section.BorderSizePixel = 5
+		Section.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+		Section.TextColor3 = Color3.fromRGB(255, 25, 0)
+		Section.Text = Name
+		Section.TextScaled = true
+		Section.TextSize = 25
+		Section.TextStrokeColor3 = Color3.fromRGB(255, 25, 0)
+		Section.TextStrokeTransparency = 1
+		
+		local UITSC = Instance.new("UITextSizeConstraint", Section)
+		UITSC.MaxTextSize = 25
+		UITSC.MinTextSize = 1
+		
+		Section.MouseButton1Down:Connect(function()
+			for i, v in pairs(Menus:GetChildren()) do
+				if v.Name ~= Name then
+					v.Visible = false
+				else
+					v.Visible = true
+				end
+			end
+		end)
+		
+		local NewMenu = Instance.new("ScrollingFrame", Menus)
+		NewMenu.Name = Name
+		NewMenu.AnchorPoint = Vector2.new(0, 0)
+		NewMenu.BackgroundTransparency = 1
+		NewMenu.Position = UDim2.new(0, 0, 0, 0)
+		NewMenu.Size = UDim2.new(1, 0, 1, 0)
+		NewMenu.CanvasPosition = Vector2.new(0, 0)
+		NewMenu.CanvasSize = UDim2.new(0, 0, 1, 0)
+		
+		local UILL = Instance.new("UIListLayout", NewMenu)
+		UILL.Padding = UDim.new(0, 5)
+		
+		local Functions = {
+			["NewTab"] = nil
+		}
+		
+		Functions["NewTab"] = function(Name)
+			local NewTab = Instance.new("Frame", NewMenu)
+			NewTab.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+			NewTab.BackgroundTransparency = 0.7
+			NewTab.BorderSizePixel = 0
+			NewTab.Size = UDim2.new(1, 0, 0, 100)
+			
+			local UILL = Instance.new("UIListLayout", NewTab)
+			UILL.Padding = UDim.new(0, 5)
+			UILL.SortOrder = Enum.SortOrder.LayoutOrder
+			
+			local NameLabel = Instance.new("TextLabel", NewTab)
+			NameLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+			NameLabel.BackgroundTransparency = 0.4
+			NameLabel.BorderSizePixel = 0
+			NameLabel.Size = UDim2.new(1, 0, 0, 40)
+			NameLabel.Text = Name
+			NameLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+			NameLabel.TextColor3 = Color3.fromRGB(255, 25, 0)
+			NameLabel.TextScaled = true
+			NameLabel.TextStrokeColor3 = Color3.fromRGB(255, 25, 0)
+			
+			local UITSC = Instance.new("UITextSizeConstraint", NameLabel)
+			UITSC.MaxTextSize = 25
+			UITSC.MinTextSize = 1
+			
+			coroutine.wrap(function()
+				local Parent = NewTab
+
+				local FullYSize = 0
+				local LLYPadding = Parent.Parent.UIListLayout.Padding.Offset
+
+				while game:GetService("RunService").RenderStepped:wait() do
+					FullYSize = LLYPadding
+					for i, v in pairs(Parent:GetChildren()) do
+						if v:IsA("Frame") or v:IsA("TextButton") or v:IsA("TextLabel") then
+							local YSize = v.Size.Y.Offset + LLYPadding
+							FullYSize = FullYSize + YSize
+						end
+					end
+					Parent.Size = UDim2.new(1, 0, 0, FullYSize)
+				end
+			end)()
+			
+			local Functions = {
+				["AddButton"] = nil,
+				["AddSwitch"] = nil,
+				["AddSlider"] = nil,
+				["AddSelector"] = nil,
+				["AddText"] = nil
+			}
+			
+			Functions["AddButton"] = function(Text, Func)
+				local Button = Instance.new("TextButton", NewTab)
+				Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				Button.BackgroundTransparency = 0.7
+				Button.BorderMode = Enum.BorderMode.Inset
+				Button.BorderSizePixel = 5
+				Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Button.Size = UDim2.new(1, 0, 0, 50)
+				Button.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+				Button.Text = Text
+				Button.TextColor3 = Color3.fromRGB(166, 19, 0)
+				Button.TextScaled = true
+				Button.TextStrokeColor3 = Color3.fromRGB(166, 19, 0)
+				
+				local UITSC = Instance.new("UITextSizeConstraint", Button)
+				UITSC.MaxTextSize = 25
+				UITSC.MinTextSize = 1
+				
+				Button.MouseButton1Down:Connect(Func)
+			end
+			
+			Functions["AddSwitch"] = function(Text, FuncOff, FuncOn)
+				local SwitchID = #PlayingTweens["Switches"] + 1
+				PlayingTweens["Switches"][SwitchID] = {
+					["SwitchMovement"] = {},
+					["SwitchColorChange"] = {}
+				}
+				
+				local Switch = Instance.new("Frame", NewTab)
+				Switch.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				Switch.BackgroundTransparency = 0.7
+				Switch.BorderSizePixel = 0
+				Switch.Size = UDim2.new(1, 0, 0, 50)
+				
+				local SwitchFrame = Instance.new("Frame", Switch)
+				SwitchFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				SwitchFrame.BackgroundTransparency = 0.7
+				SwitchFrame.BorderSizePixel = 2
+				SwitchFrame.Size = UDim2.new(0.2, 0, 0.75, 0)
+				SwitchFrame.Position = UDim2.new(1, -20, 0.5, 0)
+				SwitchFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				SwitchFrame.AnchorPoint = Vector2.new(1, 0.5)
+				
+				local Button = Instance.new("TextButton", SwitchFrame)
+				Button.BackgroundColor3 = Color3.fromRGB(145, 0, 0)
+				Button.BackgroundTransparency = 0
+				Button.BorderSizePixel = 0
+				Button.Size = UDim2.new(0.4, 0, 0.75, 0)
+				Button.Position = UDim2.new(0.05, 0, 0.5, 0)
+				Button.AnchorPoint = Vector2.new(0, 0.5)
+				Button.Text = ""
+				
+				local TextLabel = Instance.new("TextLabel", Switch)
+				TextLabel.AnchorPoint = Vector2.new(0, 0.5)
+				TextLabel.BackgroundTransparency = 1
+				TextLabel.BorderMode = Enum.BorderMode.Inset
+				TextLabel.BorderSizePixel = 5
+				TextLabel.Size = UDim2.new(0.3, 0, 1, 0)
+				TextLabel.Position = UDim2.new(0, 0, 0.5, 0)
+				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+				TextLabel.Text = Text
+				TextLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+				TextLabel.TextColor3 = Color3.fromRGB(166, 19, 0)
+				TextLabel.TextScaled = true
+
+				local UITSC = Instance.new("UITextSizeConstraint", TextLabel)
+				UITSC.MaxTextSize = 25
+				UITSC.MinTextSize = 1
+				
+				local Properties = {
+					["Toggled"] = false,
+					["AllowedToToggle"] = true
+				}
+				
+				coroutine.wrap(function()
+					local LastValue = true
+					while game:GetService("RunService").RenderStepped:wait() do
+						if LastValue ~= Properties.AllowedToToggle then
+							LastValue = Properties.AllowedToToggle
+							
+							if Properties.AllowedToToggle then
+								
+								Button.AutoButtonColor = true
+								Button.Active = true
+								local PropertyTable = {
+									["BackgroundColor3"] = nil
+								}
+
+								if Properties.Toggled then
+									PropertyTable.BackgroundColor3 = Color3.fromRGB(0, 145, 0)
+								else
+									PropertyTable.BackgroundColor3 = Color3.fromRGB(145, 0, 0)
+								end
+
+								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), PropertyTable)
+
+								for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchColorChange"]) do
+									v:Pause()
+									table.remove(PlayingTweens["Switches"][SwitchID]["SwitchColorChange"], i)
+								end
+
+								PlayingTweens["Switches"][SwitchID]["SwitchColorChange"][#PlayingTweens["Switches"][SwitchID]["SwitchColorChange"] + 1] = Tween
+
+								Tween:Play()
+								wait(0.5)
+
+								for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchColorChange"]) do
+									if v == Tween then
+										table.remove(PlayingTweens["Switches"][SwitchID]["SwitchColorChange"], i)
+									end
+								end
+							else
+								Button.AutoButtonColor = false
+								Button.Active = false
+
+								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)})
+
+								for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchColorChange"]) do
+									v:Pause()
+									table.remove(PlayingTweens["Switches"][SwitchID]["SwitchColorChange"], i)
+								end
+
+								PlayingTweens["Switches"][SwitchID]["SwitchColorChange"][#PlayingTweens["Switches"][SwitchID]["SwitchColorChange"] + 1] = Tween
+
+								Tween:Play()
+								wait(0.5)
+
+								for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchColorChange"]) do
+									if v == Tween then
+										table.remove(PlayingTweens["Switches"][SwitchID]["SwitchColorChange"], i)
+									end
+								end
+							end
+						end
+					end
+				end)()
+				
+				local function OnPressedOrChange(arg1)
+					if Properties.AllowedToToggle == true then
+						if Properties.Toggled == false then
+							local Tween
+							
+							if arg1 == "Changed" then
+								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0.05, 0, 0.5, 0), BackgroundColor3 = Color3.fromRGB(145, 0, 0)})
+							else
+								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.95, 0, 0.5, 0), BackgroundColor3 = Color3.fromRGB(0, 145, 0)})
+							end
+
+							for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchMovement"]) do
+								v:Pause()
+								table.remove(PlayingTweens["Switches"][SwitchID]["SwitchMovement"], i)
+							end
+
+							PlayingTweens["Switches"][SwitchID]["SwitchMovement"][#PlayingTweens["Switches"][SwitchID]["SwitchMovement"] + 1] = Tween
+
+							Tween:Play()
+							
+							if arg1 ~= "Changed" then
+								Properties.Toggled = true
+							end
+							
+							if arg1 == "Changed" then
+								coroutine.wrap(FuncOff)()
+							else
+								coroutine.wrap(FuncOn)()
+							end
+
+							wait(0.5)
+
+							for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchMovement"]) do
+								if v == Tween then
+									table.remove(PlayingTweens["Switches"][SwitchID]["SwitchMovement"], i)
+								end
+							end
+						else
+							local Tween
+
+							if arg1 == "Changed" then
+								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.95, 0, 0.5, 0), BackgroundColor3 = Color3.fromRGB(0, 145, 0)})
+							else
+								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0.05, 0, 0.5, 0), BackgroundColor3 = Color3.fromRGB(145, 0, 0)})
+							end
+
+							for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchMovement"]) do
+								v:Pause()
+								table.remove(PlayingTweens["Switches"][SwitchID]["SwitchMovement"], i)
+							end
+
+							PlayingTweens["Switches"][SwitchID]["SwitchMovement"][#PlayingTweens["Switches"][SwitchID]["SwitchMovement"] + 1] = Tween
+
+							Tween:Play()
+
+							if arg1 ~= "Changed" then
+								Properties.Toggled = false
+							end
+							
+							if arg1 == "Changed" then
+								coroutine.wrap(FuncOn)()
+							else
+								coroutine.wrap(FuncOff)()
+							end
+							
+							wait(0.5)
+
+							for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchMovement"]) do
+								if v == Tween then
+									table.remove(PlayingTweens["Switches"][SwitchID]["SwitchMovement"], i)
+								end
+							end
+						end
+					end
+				end
+				
+				Button.MouseButton1Down:Connect(OnPressedOrChange)
+				
+				coroutine.wrap(function()
+					local LastValue = Properties.Toggled
+					while game:GetService("RunService").RenderStepped:wait() do
+						if Properties.Toggled ~= LastValue then
+							LastValue = Properties.Toggled
+							
+							OnPressedOrChange("Changed")
+						end
+					end
+				end)()
+				
+				
+				return Properties
+				
+			end
+			
+			Functions["AddSlider"] = function(Text, FuncOnChange)
+				local SliderID = #PlayingTweens["Sliders"] + 1
+				PlayingTweens["Sliders"][SliderID] = {
+					["SliderColorChange"] = {}
+				}
+				
+				local Slider = Instance.new("Frame", NewTab)
+				Slider.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				Slider.BackgroundTransparency = 0.7
+				Slider.BorderSizePixel = 0
+				Slider.Size = UDim2.new(1, 0, 0, 50)
+
+				local SliderFrame = Instance.new("Frame", Slider)
+				SliderFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				SliderFrame.BackgroundTransparency = 0.7
+				SliderFrame.BorderSizePixel = 2
+				SliderFrame.Size = UDim2.new(0.8, 0, 0.1, 0)
+				SliderFrame.Position = UDim2.new(0.5, 0, 0.8, 0)
+				SliderFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				SliderFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+				
+				local Button = Instance.new("TextButton", SliderFrame)
+				Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				Button.BackgroundTransparency = 0
+				Button.BorderSizePixel = 2
+				Button.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				Button.Size = UDim2.new(0.058, 0, 5, 0)
+				Button.Position = UDim2.new(0, 0, 0.5, 0)
+				Button.AnchorPoint = Vector2.new(0.5, 0.5)
+				Button.Text = ""
+				
+				local UISC = Instance.new("UISizeConstraint", Button)
+				UISC.MaxSize = Vector2.new(20, 20)
+				UISC.MinSize = Vector2.new(0, 0)
+				
+				local NameLabel = Instance.new("TextLabel", Slider)
+				NameLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+				NameLabel.BackgroundTransparency = 1
+				NameLabel.BorderMode = Enum.BorderMode.Inset
+				NameLabel.BorderSizePixel = 5
+				NameLabel.Size = UDim2.new(0, 100, 0, 50)
+				NameLabel.Position = UDim2.new(0.2, 0, 0.3, 0)
+				NameLabel.Text = Text
+				NameLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+				NameLabel.TextColor3 = Color3.fromRGB(166, 19, 0)
+				NameLabel.TextScaled = true
+				
+				local UITSC = Instance.new("UITextSizeConstraint", NameLabel)
+				UITSC.MaxTextSize = 25
+				UITSC.MinTextSize = 1
+				
+				local ValueLabel = Instance.new("TextLabel", Slider)
+				ValueLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+				ValueLabel.BackgroundTransparency = 1
+				ValueLabel.BorderMode = Enum.BorderMode.Inset
+				ValueLabel.BorderSizePixel = 5
+				ValueLabel.Size = UDim2.new(0, 100, 0, 50)
+				ValueLabel.Position = UDim2.new(0.8, 0, 0.3, 0)
+				ValueLabel.Text = "0"
+				ValueLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+				ValueLabel.TextColor3 = Color3.fromRGB(166, 19, 0)
+				ValueLabel.TextScaled = true
+
+				local UITSC = Instance.new("UITextSizeConstraint", ValueLabel)
+				UITSC.MaxTextSize = 25
+				UITSC.MinTextSize = 1
+				
+				local Properties = {
+					["MinValue"] = 0,
+					["MaxValue"] = 100,
+					["CanSlide"] = true,
+					["Value"] = 0,
+					["_coroutineFuncCall"] = true
+				}
+				
+				local Per1Value = (Properties.MaxValue - Properties.MinValue) / SliderFrame.AbsoluteSize.X
+				
+				local function OnPressed()
+					while game:GetService("RunService").RenderStepped:wait() do
+						if not Holding or not Properties.CanSlide then
+							break
+						end
+						
+						local ScaleXPos = SliderFrame.AbsolutePosition.X
+						local ScaleXSize = SliderFrame.AbsoluteSize.X
+						
+						local NewPosX = Mouse.X - ScaleXPos
+						
+						if NewPosX < 0 then
+							NewPosX = 0
+						elseif NewPosX > ScaleXSize then
+							NewPosX = ScaleXSize
+						end
+						
+						Button.Position = UDim2.new(0, NewPosX, 0.5, 0)
+						
+						local Value = math.floor(NewPosX * Per1Value + 0.5)
+						
+						ValueLabel.Text = tostring(Properties.MinValue + Value)
+						Properties.Value = Value
+					end
+				end
+				
+				Button.MouseButton1Down:Connect(OnPressed)
+				
+				coroutine.wrap(function()
+					local LastValue = true
+					local LastValue2 = 0
+					local LastValue3, LastValue4 = 0, 100
+					
+					while game:GetService("RunService").RenderStepped:wait() do
+						if LastValue ~= Properties.CanSlide then
+							LastValue = Properties.CanSlide
+							
+							if not Properties.CanSlide then
+								Button.AutoButtonColor = false
+								Button.Active = false
+
+								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(40, 40, 40)})
+								local Tween2 = TS:Create(SliderFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(40, 40, 40)})
+
+								for i, v in pairs(PlayingTweens["Sliders"][SliderID]["SliderColorChange"]) do
+									v:Pause()
+									table.remove(PlayingTweens["Sliders"][SliderID]["SliderColorChange"], i)
+								end
+
+								PlayingTweens["Sliders"][SliderID]["SliderColorChange"][#PlayingTweens["Sliders"][SliderID]["SliderColorChange"] + 1] = Tween
+								PlayingTweens["Sliders"][SliderID]["SliderColorChange"][#PlayingTweens["Sliders"][SliderID]["SliderColorChange"] + 1] = Tween2
+
+								Tween:Play()
+								Tween2:Play()
+								wait(0.5)
+
+								for i, v in pairs(PlayingTweens["Sliders"][SliderID]["SliderColorChange"]) do
+									if v == Tween or v == Tween2 then
+										table.remove(PlayingTweens["Sliders"][SliderID]["SliderColorChange"], i)
+									end
+								end
+							else
+								Button.AutoButtonColor = true
+								Button.Active = true
+
+								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(145, 0, 0)})
+								local Tween2 = TS:Create(SliderFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(145, 0, 0)})
+								
+
+								for i, v in pairs(PlayingTweens["Sliders"][SliderID]["SliderColorChange"]) do
+									v:Pause()
+									table.remove(PlayingTweens["Sliders"][SliderID]["SliderColorChange"], i)
+								end
+
+								PlayingTweens["Sliders"][SliderID]["SliderColorChange"][#PlayingTweens["Sliders"][SliderID]["SliderColorChange"] + 1] = Tween
+								PlayingTweens["Sliders"][SliderID]["SliderColorChange"][#PlayingTweens["Sliders"][SliderID]["SliderColorChange"] + 1] = Tween2
+
+								Tween:Play()
+								Tween2:Play()
+								wait(0.5)
+
+								for i, v in pairs(PlayingTweens["Sliders"][SliderID]["SliderColorChange"]) do
+									if v == Tween or v == Tween2
+									then
+										table.remove(PlayingTweens["Sliders"][SliderID]["SliderColorChange"], i)
+									end
+								end
+							end
+						end
+						
+						if LastValue2 ~= Properties.Value then
+							LastValue2 = Properties.Value
+							if Properties["_coroutineFuncCall"] then
+								coroutine.wrap(FuncOnChange)(Properties.Value)
+							else
+								FuncOnChange(Properties.Value)
+							end
+						end
+						
+						if LastValue3 ~= Properties.MinValue then
+							LastValue3 = Properties.MinValue
+							
+							Per1Value = (Properties.MaxValue - Properties.MinValue) / SliderFrame.AbsoluteSize.X
+							
+							local Value = math.floor(Button.Position.X.Offset * Per1Value + 0.5)
+
+							ValueLabel.Text = tostring(Properties.MinValue + Value)
+							Properties.Value = Value
+						end
+						
+						if LastValue4 ~= Properties.MaxValue then
+							LastValue4 = Properties.MaxValue
+							
+							Per1Value = (Properties.MaxValue - Properties.MinValue) / SliderFrame.AbsoluteSize.X
+
+							local Value = math.floor(Button.Position.X.Offset * Per1Value + 0.5)
+
+							ValueLabel.Text = tostring(Properties.MinValue + Value)
+							Properties.Value = Value
+						end
+					end
+				end)()
+				
+				return Properties
+			end
+			
+			return Functions
+		end
+		
+		return Functions
+	end
+	
+	return Functions
+end
