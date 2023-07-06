@@ -708,7 +708,7 @@ local function new()
 		
 		return Functions
 	end
-
-return new
 	return Functions
 end
+
+return new
