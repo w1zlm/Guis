@@ -264,9 +264,9 @@ local function new()
 			local Functions = {
 				["AddButton"] = nil,
 				["AddSwitch"] = nil,
-				["AddSlider"] = nil,
-				["AddSelector"] = nil,
-				["AddText"] = nil
+				["AddSlider"] = nil
+				--["AddSelector"] = nil,
+				--["AddText"] = nil
 			}
 			
 			Functions["AddButton"] = function(Text, Func)
@@ -708,6 +708,7 @@ local function new()
 		
 		return Functions
 	end
-	
+
+return new
 	return Functions
 end
