@@ -371,9 +371,9 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 				local function OnClicked()
 					if not Properties.Disabled then
 						if Properties["_coroutineFuncCall"] then
-							coroutine.wrap(Func)(Properties)
+							coroutine.wrap(Func)()
 						else
-							Func(Properties)
+							Func()
 						end
 					end
 				end
@@ -607,15 +607,15 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 
 							if arg1 == "Changed" then
 								if Properties["_coroutineFuncOffCall"] then
-									coroutine.wrap(FuncOff)(Properties)
+									coroutine.wrap(FuncOff)()
 								else
-									FuncOff(Properties)
+									FuncOff()
 								end
 							else
 								if Properties["_coroutineFuncOnCall"] then
-									coroutine.wrap(FuncOn)(Properties)
+									coroutine.wrap(FuncOn)()
 								else
-									FuncOn(Properties)
+									FuncOn()
 								end
 							end
 
@@ -653,15 +653,15 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 
 							if arg1 == "Changed" then
 								if Properties["_coroutineFuncOffCall"] then
-									coroutine.wrap(FuncOn)(Properties)
+									coroutine.wrap(FuncOn)()
 								else
-									FuncOn(Properties)
+									FuncOn()
 								end
 							else
 								if Properties["_coroutineFuncOnCall"] then
-									coroutine.wrap(FuncOff)(Properties)
+									coroutine.wrap(FuncOff)()
 								else
-									FuncOff(Properties)
+									FuncOff()
 								end
 							end
 
@@ -886,9 +886,9 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 							end
 
 							if Properties["_coroutineFuncCall"] then
-								coroutine.wrap(FuncOnChange)(Properties, Properties.Value)
+								coroutine.wrap(FuncOnChange)(Properties.Value)
 							else
-								FuncOnChange(Properties, Properties.Value)
+								FuncOnChange(Properties.Value)
 							end
 						end
 
