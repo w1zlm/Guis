@@ -1,4 +1,5 @@
--- Maded by w1zlm (discord, roblox and youtube)
+-- Made by w1zlm (roblox and youtube)
+-- Discord - w1zml
 
 local function __name__()
 	local Name = ""
@@ -12,12 +13,15 @@ local TS = game:GetService("TweenService")
 
 local PlayingTweens = {
 	["Buttons"] = {
-		
+
 	},
 	["Switches"] = {
-		
+
 	},
 	["Sliders"] = {
+
+	},
+	["Selectors"] = {
 
 	}
 }
@@ -32,6 +36,10 @@ local TweenStandarts = {
 	},
 	["Slider"] = {
 		["SliderColorChange"] = {}
+	},
+	["Selector"] = {
+		["SelectorSizeChange"] = {},
+		["SelectorArrowRotation"] = {}
 	}
 }
 
@@ -58,17 +66,29 @@ end)
 
 local Camera = game.Workspace.CurrentCamera
 
+local function FindButtonByY(Folder)
+	local Y = Mouse.Y
+	for _, v in pairs(Folder:GetChildren()) do
+		if v:IsA("GuiButton") then
+			if Y <= v.AbsolutePosition.Y + v.AbsoluteSize.Y and Y >= v.AbsolutePosition.Y then
+				return v
+			end
+		end
+	end
+	return nil
+end
+
 local function new()
 	local Gui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
 	Gui.Name = __name__()
-	
+
 	local Frame = Instance.new("Frame", Gui)
 	Frame.Name = "Frame"
 	Frame.AnchorPoint = Vector2.new(0.5, 0.5)
 	Frame.BackgroundTransparency = 1
 	Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	Frame.Size = UDim2.new(0.5, 0, 0.5, 0)
-	
+
 	local BorderDW = Instance.new("Frame", Frame)
 	BorderDW.Name = "Border dw"
 	BorderDW.AnchorPoint = Vector2.new(0, 1)
@@ -79,7 +99,7 @@ local function new()
 	BorderDW.BorderSizePixel = 1
 	BorderDW.Position = UDim2.new(0, 0, 1, 0)
 	BorderDW.Size = UDim2.new(1, 0, 0, 5)
-	
+
 	local BorderDW2 = Instance.new("Frame", Frame)
 	BorderDW2.Name = "Border dw 2"
 	BorderDW2.AnchorPoint = Vector2.new(0, 1)
@@ -90,7 +110,7 @@ local function new()
 	BorderDW2.BorderSizePixel = 1
 	BorderDW2.Position = UDim2.new(0, 0, 1, -10)
 	BorderDW2.Size = UDim2.new(1, 0, 0, 2)
-	
+
 	local BorderUP = Instance.new("Frame", Frame)
 	BorderUP.Name = "Border up"
 	BorderUP.AnchorPoint = Vector2.new(0, 0)
@@ -112,7 +132,7 @@ local function new()
 	BorderUP2.BorderSizePixel = 1
 	BorderUP2.Position = UDim2.new(0, 0, 0, 10)
 	BorderUP2.Size = UDim2.new(1, 0, 0, 2)
-	
+
 	local Menu = Instance.new("Frame", Frame)
 	Menu.Name = "Menu"
 	Menu.AnchorPoint = Vector2.new(0, 0)
@@ -123,7 +143,7 @@ local function new()
 	Menu.BorderSizePixel = 1
 	Menu.Position = UDim2.new(0, 0, 0, 20)
 	Menu.Size = UDim2.new(1, 0, 1, -40)
-	
+
 	local Border = Instance.new("Frame", Menu)
 	Border.Name = "Border"
 	Border.AnchorPoint = Vector2.new(0, 0)
@@ -134,7 +154,7 @@ local function new()
 	Border.BorderSizePixel = 1
 	Border.Position = UDim2.new(0.25, 0, 0, 0)
 	Border.Size = UDim2.new(0, 3, 1, 0)
-	
+
 	local Frame2 = Instance.new("Frame", Menu)
 	Frame2.Name = "Frame2"
 	Frame2.AnchorPoint = Vector2.new(0, 0)
@@ -143,7 +163,7 @@ local function new()
 	Frame2.BorderSizePixel = 0
 	Frame2.Position = UDim2.new(0, 0, 0, 0)
 	Frame2.Size = UDim2.new(0.25, 0, 1, 0)
-	
+
 	local Menus = Instance.new("Frame", Menu)
 	Menus.Name = "Menus"
 	Menus.AnchorPoint = Vector2.new(0, 0)
@@ -152,7 +172,7 @@ local function new()
 	Menus.BorderSizePixel = 1
 	Menus.Position = UDim2.new(0.25, 4, 0, 0)
 	Menus.Size = UDim2.new(0.75, -4, 1, 0)
-	
+
 	local Sections = Instance.new("ScrollingFrame", Menu)
 	Sections.Name = "Sections"
 	Sections.AnchorPoint = Vector2.new(0, 0)
@@ -163,7 +183,7 @@ local function new()
 	Sections.Size = UDim2.new(0.25, 0, 1, 0)
 	Sections.CanvasSize = UDim2.new(0, 0, 1, 0)
 	Sections.CanvasPosition = Vector2.new(0, 0)
-	
+
 	local UIGL = Instance.new("UIGridLayout", Sections)
 	UIGL.FillDirection = Enum.FillDirection.Horizontal
 	UIGL.FillDirectionMaxCells = 0
@@ -173,11 +193,11 @@ local function new()
 	UIGL.VerticalAlignment = Enum.VerticalAlignment.Top
 	UIGL.CellPadding = UDim2.new(0, 5, 0, 5)
 	UIGL.CellSize = UDim2.new(1, 0, 0, 50)
-	
+
 	local Functions = {
 		["NewSection"] = nil
 	}
-	
+
 	Functions["NewSection"] = function(Name)
 		local Section = Instance.new("TextButton", Sections)
 		Section.Name = Name
@@ -192,11 +212,11 @@ local function new()
 		Section.TextSize = 25
 		Section.TextStrokeColor3 = Color3.fromRGB(255, 25, 0)
 		Section.TextStrokeTransparency = 1
-		
+
 		local UITSC = Instance.new("UITextSizeConstraint", Section)
 		UITSC.MaxTextSize = 25
 		UITSC.MinTextSize = 1
-		
+
 		Section.MouseButton1Down:Connect(function()
 			for i, v in pairs(Menus:GetChildren()) do
 				if v.Name ~= Name then
@@ -206,7 +226,7 @@ local function new()
 				end
 			end
 		end)
-		
+
 		local NewMenu = Instance.new("ScrollingFrame", Menus)
 		NewMenu.Name = Name
 		NewMenu.AnchorPoint = Vector2.new(0, 0)
@@ -215,24 +235,62 @@ local function new()
 		NewMenu.Size = UDim2.new(1, 0, 1, 0)
 		NewMenu.CanvasPosition = Vector2.new(0, 0)
 		NewMenu.CanvasSize = UDim2.new(0, 0, 1, 0)
-		
+
 		local UILL = Instance.new("UIListLayout", NewMenu)
 		UILL.Padding = UDim.new(0, 5)
 		
+		local LastTab
+		local TabAmount = 0
+		local PreLastTab
+		
+		local LastTabSelector
+		local PreLastTabSelector
+		
+		coroutine.wrap(function()
+			local Parent = NewMenu
+			local UILL1 = UILL
+
+			while game:GetService("RunService").RenderStepped:wait() do
+				local EndYSize = UILL1.AbsoluteContentSize.Y + UILL1.Padding.Offset
+				
+				if LastTabSelector then
+					local SelectedFrame = LastTabSelector.SelectedFrame
+					local ScrollingFrame = SelectedFrame.ScrollingFrame
+					
+					local EndResult = (LastTab.AbsolutePosition.Y + LastTab.UIListLayout.AbsoluteContentSize.Y) - (SelectedFrame.AbsolutePosition.Y + SelectedFrame.AbsoluteSize.Y)
+					EndResult = math.max(0, ScrollingFrame.AbsoluteSize.Y - EndResult)
+					
+					EndYSize = EndYSize + EndResult
+				elseif PreLastTabSelector then
+					local ScrollingFrame = PreLastTabSelector.SelectedFrame.ScrollingFrame
+					EndYSize = EndYSize + math.max(0, ScrollingFrame.AbsoluteSize.Y - (LastTab.AbsoluteSize.Y + UILL.Padding.Offset * 2))
+				end
+				
+				Parent.CanvasSize = UDim2.new(0, 0, 0, EndYSize)
+			end
+		end)()
+
 		local Functions = {
 			["NewTab"] = nil
 		}
-		
+
 		Functions["NewTab"] = function(Name)
+			
 			local NewTab = Instance.new("Frame", NewMenu)
 			NewTab.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 			NewTab.BackgroundTransparency = 0.7
 			NewTab.BorderSizePixel = 0
 			NewTab.Size = UDim2.new(1, 0, 0, 100)
 			
+			PreLastTab = LastTab
+			LastTab = NewTab
+			PreLastTabSelector = LastTabSelector
+			LastTabSelector = nil
+
 			local UILL = Instance.new("UIListLayout", NewTab)
 			UILL.Padding = UDim.new(0, 5)
 			UILL.SortOrder = Enum.SortOrder.LayoutOrder
+			UILL.Name = "UIListLayout"
 			
 			local NameLabel = Instance.new("TextLabel", NewTab)
 			NameLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
@@ -244,29 +302,20 @@ local function new()
 			NameLabel.TextColor3 = Color3.fromRGB(255, 25, 0)
 			NameLabel.TextScaled = true
 			NameLabel.TextStrokeColor3 = Color3.fromRGB(255, 25, 0)
-			
+
 			local UITSC = Instance.new("UITextSizeConstraint", NameLabel)
 			UITSC.MaxTextSize = 25
 			UITSC.MinTextSize = 1
-			
+
 			coroutine.wrap(function()
 				local Parent = NewTab
-
-				local FullYSize = 0
-				local LLYPadding = Parent.Parent.UIListLayout.Padding.Offset
-
+				local UILL1 = UILL
+				
 				while game:GetService("RunService").RenderStepped:wait() do
-					FullYSize = LLYPadding
-					for i, v in pairs(Parent:GetChildren()) do
-						if v:IsA("Frame") or v:IsA("TextButton") or v:IsA("TextLabel") then
-							local YSize = v.Size.Y.Offset + LLYPadding
-							FullYSize = FullYSize + YSize
-						end
-					end
-					Parent.Size = UDim2.new(1, 0, 0, FullYSize)
+					Parent.Size = UDim2.new(1, 0, 0, UILL1.AbsoluteContentSize.Y + UILL1.Padding.Offset)
 				end
 			end)()
-			
+
 			local Functions = {
 				["AddButton"] = nil,
 				["AddSwitch"] = nil,
@@ -274,18 +323,18 @@ local function new()
 				["AddSelector"] = nil,
 				["AddText"] = nil
 			}
-			
+
 			Functions["AddButton"] = function(Text, Func)
 				local ButtonId = #PlayingTweens["Buttons"] + 1
 				PlayingTweens["Buttons"][ButtonId] = {
 					["TextColorChange"] = {}
 				}
-				
+
 				local Properties = {
 					["Disabled"] = false,
 					["_coroutineFuncCall"] = true
 				}
-				
+
 				local Button = Instance.new("TextButton", NewTab)
 				Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 				Button.BackgroundTransparency = 0.7
@@ -298,29 +347,29 @@ local function new()
 				Button.TextColor3 = Color3.fromRGB(166, 19, 0)
 				Button.TextScaled = true
 				Button.TextStrokeColor3 = Color3.fromRGB(166, 19, 0)
-				
+
 				local UITSC = Instance.new("UITextSizeConstraint", Button)
 				UITSC.MaxTextSize = 25
 				UITSC.MinTextSize = 1
-				
+
 				local function OnClicked()
 					if not Properties.Disabled then
 						if Properties["_coroutineFuncCall"] then
-							coroutine.wrap(Func)()
+							coroutine.wrap(Func)(Properties)
 						else
-							Func()
+							Func(Properties)
 						end
 					end
 				end
-				
+
 				coroutine.wrap(function()
 					local LastValue = false
-					
+
 					while game:GetService("RunService").RenderStepped:wait() do
-						
+
 						if LastValue ~= Properties.Disabled then
 							LastValue = Properties.Disabled
-							
+
 							if Properties.Disabled then
 								Button.AutoButtonColor = false
 								Button.Active = false
@@ -333,9 +382,9 @@ local function new()
 								end
 
 								PlayingTweens["Buttons"][ButtonId]["TextColorChange"][#PlayingTweens["Buttons"][ButtonId]["TextColorChange"] + 1] = Tween
-								
+
 								Tween:Play()
-								
+
 								coroutine.wrap(function()
 									wait(0.5)
 
@@ -359,7 +408,7 @@ local function new()
 								PlayingTweens["Buttons"][ButtonId]["TextColorChange"][#PlayingTweens["Buttons"][ButtonId]["TextColorChange"] + 1] = Tween
 
 								Tween:Play()
-								
+
 								coroutine.wrap(function()
 									wait(0.5)
 
@@ -373,25 +422,25 @@ local function new()
 						end
 					end
 				end)()
-				
+
 				Button.MouseButton1Down:Connect(OnClicked)
-				
+
 				return Properties
 			end
-			
+
 			Functions["AddSwitch"] = function(Text, FuncOff, FuncOn)
 				local SwitchID = #PlayingTweens["Switches"] + 1
 				PlayingTweens["Switches"][SwitchID] = {
 					["SwitchMovement"] = {},
 					["SwitchColorChange"] = {}
 				}
-				
+
 				local Switch = Instance.new("Frame", NewTab)
 				Switch.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 				Switch.BackgroundTransparency = 0.7
 				Switch.BorderSizePixel = 0
 				Switch.Size = UDim2.new(1, 0, 0, 50)
-				
+
 				local SwitchFrame = Instance.new("Frame", Switch)
 				SwitchFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 				SwitchFrame.BackgroundTransparency = 0.7
@@ -400,7 +449,7 @@ local function new()
 				SwitchFrame.Position = UDim2.new(1, -20, 0.5, 0)
 				SwitchFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
 				SwitchFrame.AnchorPoint = Vector2.new(1, 0.5)
-				
+
 				local Button = Instance.new("TextButton", SwitchFrame)
 				Button.BackgroundColor3 = Color3.fromRGB(145, 0, 0)
 				Button.BackgroundTransparency = 0
@@ -409,7 +458,7 @@ local function new()
 				Button.Position = UDim2.new(0.05, 0, 0.5, 0)
 				Button.AnchorPoint = Vector2.new(0, 0.5)
 				Button.Text = ""
-				
+
 				local TextLabel = Instance.new("TextLabel", Switch)
 				TextLabel.AnchorPoint = Vector2.new(0, 0.5)
 				TextLabel.BackgroundTransparency = 1
@@ -426,7 +475,7 @@ local function new()
 				local UITSC = Instance.new("UITextSizeConstraint", TextLabel)
 				UITSC.MaxTextSize = 25
 				UITSC.MinTextSize = 1
-				
+
 				local Properties = {
 					["Toggled"] = false,
 					["AllowedToToggle"] = true,
@@ -434,17 +483,17 @@ local function new()
 					["_coroutineFuncOffCall"] = true,
 					["_coroutineFuncOnCall"] = true
 				}
-				
+
 				coroutine.wrap(function()
 					local LastValue = true
 					local LastValue2 = true
-					
+
 					while game:GetService("RunService").RenderStepped:wait() do
 						if LastValue ~= Properties.AllowedToToggle then
 							LastValue = Properties.AllowedToToggle
-							
+
 							if Properties.AllowedToToggle then
-								
+
 								Button.AutoButtonColor = true
 								Button.Active = true
 								local PropertyTable = {
@@ -491,7 +540,7 @@ local function new()
 								PlayingTweens["Switches"][SwitchID]["SwitchColorChange"][#PlayingTweens["Switches"][SwitchID]["SwitchColorChange"] + 1] = Tween
 
 								Tween:Play()
-								
+
 								coroutine.wrap(function()
 									wait(0.5)
 
@@ -503,21 +552,23 @@ local function new()
 								end)()
 							end
 						end
-						
+
 						if LastValue2 ~= Properties["_coroutineFuncCall"] then
 							LastValue2 = Properties["_coroutineFuncCall"]
-							
+
 							Properties["_coroutineFuncOffCall"] = Properties["_coroutineFuncCall"]
 							Properties["_coroutineFuncOnCall"] = Properties["_coroutineFuncCall"]
 						end
 					end
 				end)()
-				
+
+				local LastValue = Properties.Toggled
+
 				local function OnPressedOrChange(arg1)
 					if Properties.AllowedToToggle == true then
 						if Properties.Toggled == false then
 							local Tween
-							
+
 							if arg1 == "Changed" then
 								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0.05, 0, 0.5, 0), BackgroundColor3 = Color3.fromRGB(145, 0, 0)})
 							else
@@ -532,22 +583,23 @@ local function new()
 							PlayingTweens["Switches"][SwitchID]["SwitchMovement"][#PlayingTweens["Switches"][SwitchID]["SwitchMovement"] + 1] = Tween
 
 							Tween:Play()
-							
+
 							if arg1 ~= "Changed" then
+								LastValue = true
 								Properties.Toggled = true
 							end
-							
+
 							if arg1 == "Changed" then
 								if Properties["_coroutineFuncOffCall"] then
-									coroutine.wrap(FuncOff)()
+									coroutine.wrap(FuncOff)(Properties)
 								else
-									FuncOff()
+									FuncOff(Properties)
 								end
 							else
 								if Properties["_coroutineFuncOnCall"] then
-									coroutine.wrap(FuncOn)()
+									coroutine.wrap(FuncOn)(Properties)
 								else
-									FuncOn()
+									FuncOn(Properties)
 								end
 							end
 
@@ -579,23 +631,24 @@ local function new()
 							Tween:Play()
 
 							if arg1 ~= "Changed" then
+								LastValue = false
 								Properties.Toggled = false
 							end
-							
+
 							if arg1 == "Changed" then
 								if Properties["_coroutineFuncOffCall"] then
-									coroutine.wrap(FuncOff)()
+									coroutine.wrap(FuncOn)(Properties)
 								else
-									FuncOff()
+									FuncOn(Properties)
 								end
 							else
 								if Properties["_coroutineFuncOnCall"] then
-									coroutine.wrap(FuncOn)()
+									coroutine.wrap(FuncOff)(Properties)
 								else
-									FuncOn()
+									FuncOff(Properties)
 								end
 							end
-							
+
 							coroutine.wrap(function()
 								wait(0.5)
 
@@ -608,31 +661,30 @@ local function new()
 						end
 					end
 				end
-				
+
 				Button.MouseButton1Down:Connect(OnPressedOrChange)
-				
+
 				coroutine.wrap(function()
-					local LastValue = Properties.Toggled
 					while game:GetService("RunService").RenderStepped:wait() do
 						if Properties.Toggled ~= LastValue then
 							LastValue = Properties.Toggled
-							
+							Properties.Toggled = Properties.Toggled
+
 							OnPressedOrChange("Changed")
 						end
 					end
 				end)()
-				
-				
+
 				return Properties
-				
+
 			end
-			
+
 			Functions["AddSlider"] = function(Text, FuncOnChange)
 				local SliderID = #PlayingTweens["Sliders"] + 1
 				PlayingTweens["Sliders"][SliderID] = {
 					["SliderColorChange"] = {}
 				}
-				
+
 				local Slider = Instance.new("Frame", NewTab)
 				Slider.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 				Slider.BackgroundTransparency = 0.7
@@ -647,7 +699,7 @@ local function new()
 				SliderFrame.Position = UDim2.new(0.5, 0, 0.8, 0)
 				SliderFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
 				SliderFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-				
+
 				local Button = Instance.new("TextButton", SliderFrame)
 				Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 				Button.BackgroundTransparency = 0
@@ -657,11 +709,11 @@ local function new()
 				Button.Position = UDim2.new(0, 0, 0.5, 0)
 				Button.AnchorPoint = Vector2.new(0.5, 0.5)
 				Button.Text = ""
-				
+
 				local UISC = Instance.new("UISizeConstraint", Button)
 				UISC.MaxSize = Vector2.new(20, 20)
 				UISC.MinSize = Vector2.new(0, 0)
-				
+
 				local NameLabel = Instance.new("TextLabel", Slider)
 				NameLabel.AnchorPoint = Vector2.new(0.5, 0.5)
 				NameLabel.BackgroundTransparency = 1
@@ -673,11 +725,11 @@ local function new()
 				NameLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
 				NameLabel.TextColor3 = Color3.fromRGB(166, 19, 0)
 				NameLabel.TextScaled = true
-				
+
 				local UITSC = Instance.new("UITextSizeConstraint", NameLabel)
 				UITSC.MaxTextSize = 25
 				UITSC.MinTextSize = 1
-				
+
 				local ValueLabel = Instance.new("TextLabel", Slider)
 				ValueLabel.AnchorPoint = Vector2.new(0.5, 0.5)
 				ValueLabel.BackgroundTransparency = 1
@@ -693,7 +745,7 @@ local function new()
 				local UITSC = Instance.new("UITextSizeConstraint", ValueLabel)
 				UITSC.MaxTextSize = 25
 				UITSC.MinTextSize = 1
-				
+
 				local Properties = {
 					["MinValue"] = 0,
 					["MaxValue"] = 100,
@@ -701,52 +753,52 @@ local function new()
 					["Value"] = 0,
 					["_coroutineFuncCall"] = true	
 				}
-				
+
 				local Per1Value = (Properties.MaxValue - Properties.MinValue) / SliderFrame.AbsoluteSize.X
 				local Per1Value2 = SliderFrame.AbsoluteSize.X / (Properties.MaxValue - Properties.MinValue)
-				
+
 				local IsButtonHolding = false
-				
+
 				local function OnPressed()
 					IsButtonHolding = true
-					
+
 					while game:GetService("RunService").RenderStepped:wait() do
 						if not Holding or not Properties.CanSlide then
 							IsButtonHolding = false
 							break
 						end
-						
+
 						local ScaleXPos = SliderFrame.AbsolutePosition.X
 						local ScaleXSize = SliderFrame.AbsoluteSize.X
-						
+
 						local NewPosX = Mouse.X - ScaleXPos
-						
+
 						if NewPosX < 0 then
 							NewPosX = 0
 						elseif NewPosX > ScaleXSize then
 							NewPosX = ScaleXSize
 						end
-						
+
 						Button.Position = UDim2.new(0, NewPosX, 0.5, 0)
-						
+
 						local Value = math.floor(NewPosX * Per1Value + 0.5)
-						
+
 						ValueLabel.Text = tostring(Properties.MinValue + Value)
 						Properties.Value = Value
 					end
 				end
-				
+
 				Button.MouseButton1Down:Connect(OnPressed)
-				
+
 				coroutine.wrap(function()
 					local LastValue = true
 					local LastValue2 = 0
 					local LastValue3, LastValue4 = 0, 100
-					
+
 					while game:GetService("RunService").RenderStepped:wait() do
 						if LastValue ~= Properties.CanSlide then
 							LastValue = Properties.CanSlide
-							
+
 							if not Properties.CanSlide then
 								Button.AutoButtonColor = false
 								Button.Active = false
@@ -764,7 +816,7 @@ local function new()
 
 								Tween:Play()
 								Tween2:Play()
-								
+
 								coroutine.wrap(function()
 									wait(0.5)
 
@@ -780,7 +832,7 @@ local function new()
 
 								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(145, 0, 0)})
 								local Tween2 = TS:Create(SliderFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(145, 0, 0)})
-								
+
 
 								for i, v in pairs(PlayingTweens["Sliders"][SliderID]["SliderColorChange"]) do
 									v:Pause()
@@ -792,7 +844,7 @@ local function new()
 
 								Tween:Play()
 								Tween2:Play()
-								
+
 								coroutine.wrap(function()
 									wait(0.5)
 
@@ -804,41 +856,41 @@ local function new()
 								end)()
 							end
 						end
-						
+
 						if LastValue2 ~= Properties.Value then
 							LastValue2 = Properties.Value
-							
+
 							local TrueValue = math.floor(Button.Position.X.Offset * Per1Value + 0.5)
-							
+
 							local NeedToChange = math.abs(TrueValue - Properties.Value) > (Properties.MaxValue - Properties.MinValue) / 20 and not IsButtonHolding
-							
+
 							if NeedToChange then
 								Button.Position = UDim2.new(0, math.floor(Properties.Value * Per1Value2 + 0.5), 0.5, 0)
 								ValueLabel.Text = tostring(Properties.MinValue + Properties.Value)
 							end
-							
+
 							if Properties["_coroutineFuncCall"] then
-								coroutine.wrap(FuncOnChange)(Properties.Value)
+								coroutine.wrap(FuncOnChange)(Properties, Properties.Value)
 							else
-								FuncOnChange(Properties.Value)
+								FuncOnChange(Properties, Properties.Value)
 							end
 						end
-						
+
 						if LastValue3 ~= Properties.MinValue then
 							LastValue3 = Properties.MinValue
-							
+
 							Per1Value = (Properties.MaxValue - Properties.MinValue) / SliderFrame.AbsoluteSize.X
 							Per1Value2 = SliderFrame.AbsoluteSize.X / (Properties.MaxValue - Properties.MinValue)
-							
+
 							local Value = math.floor(Button.Position.X.Offset * Per1Value + 0.5)
 
 							ValueLabel.Text = tostring(Properties.MinValue + Value)
 							Properties.Value = Value
 						end
-						
+
 						if LastValue4 ~= Properties.MaxValue then
 							LastValue4 = Properties.MaxValue
-							
+
 							Per1Value = (Properties.MaxValue - Properties.MinValue) / SliderFrame.AbsoluteSize.X
 							Per1Value2 = SliderFrame.AbsoluteSize.X / (Properties.MaxValue - Properties.MinValue)
 
@@ -849,16 +901,390 @@ local function new()
 						end
 					end
 				end)()
+
+				return Properties
+			end
+
+			Functions["AddSelector"] = function(Text, FuncOnChoiced)
+				local SelectorID = #PlayingTweens["Selectors"] + 1
+				PlayingTweens["Selectors"][SelectorID] = {
+					["SelectorSizeChange"] = {},
+					["SelectorArrowRotation"] = {},
+					["SelectorColorChange"] = {},
+				}
+				
+				local Selector = Instance.new("Frame", NewTab)
+				Selector.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				Selector.BackgroundTransparency = 0.7
+				Selector.BorderSizePixel = 0
+				Selector.Size = UDim2.new(1, 0, 0, 50)
+				
+				if LastTab == NewTab then
+					LastTabSelector = Selector
+				end
+
+				local SelectedFrame = Instance.new("Frame", Selector)
+				SelectedFrame.AnchorPoint = Vector2.new(1, 0.5)
+				SelectedFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				SelectedFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				SelectedFrame.BorderSizePixel = 2
+				SelectedFrame.BackgroundTransparency = 0.7
+				SelectedFrame.Position = UDim2.new(1, -20, 0.5, 0)
+				SelectedFrame.Size = UDim2.new(0.5, -20, 0.75, 0)
+				SelectedFrame.Name = "SelectedFrame"
+
+				local TextLabel = Instance.new("TextLabel", Selector)
+				TextLabel.AnchorPoint = Vector2.new(0, 0.5)
+				TextLabel.BackgroundTransparency = 1
+				TextLabel.BorderMode = Enum.BorderMode.Inset
+				TextLabel.BorderSizePixel = 5
+				TextLabel.Size = UDim2.new(0.3, 0, 1, 0)
+				TextLabel.Position = UDim2.new(0, 0, 0.5, 0)
+				TextLabel.Text = Text
+				TextLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+				TextLabel.TextColor3 = Color3.fromRGB(166, 19, 0)
+				TextLabel.TextScaled = true
+				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+				local UITSC = Instance.new("UITextSizeConstraint", TextLabel)
+				UITSC.MaxTextSize = 25
+				UITSC.MinTextSize = 1
+
+				local ScrollingFrame = Instance.new("ScrollingFrame", SelectedFrame)
+				ScrollingFrame.AnchorPoint = Vector2.new(1, 0)
+				ScrollingFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				ScrollingFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				ScrollingFrame.BorderSizePixel = 2
+				ScrollingFrame.BackgroundTransparency = 0.7
+				ScrollingFrame.Position = UDim2.new(1, 0, 1, 2)
+				ScrollingFrame.Size = UDim2.new(1, 0, 0, 0)
+				ScrollingFrame.Name = "ScrollingFrame"
+				ScrollingFrame.ZIndex = 2
+				ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
+				local ImageLabel = Instance.new("ImageLabel", SelectedFrame)
+				ImageLabel.AnchorPoint = Vector2.new(1, 0.5)
+				ImageLabel.BackgroundTransparency = 1
+				ImageLabel.Position = UDim2.new(1, -10, 0.5, 0)
+				ImageLabel.Size = UDim2.new(0, 20, 0, 20)
+				ImageLabel.ImageColor3 = Color3.fromRGB(166, 19, 0)
+				ImageLabel.Image = "http://www.roblox.com/asset/?id=6720842701"
+
+				local ImageLabel2 = Instance.new("ImageLabel", ImageLabel)
+				ImageLabel2.AnchorPoint = Vector2.new(0.5, 0.5)
+				ImageLabel2.BackgroundTransparency = 1
+				ImageLabel2.Position = UDim2.new(0.5, -1, 0.5, 0)
+				ImageLabel2.Size = UDim2.new(0, 15, 0, 15)
+				ImageLabel2.ImageColor3 = Color3.fromRGB(0, 0, 0)
+				ImageLabel2.Image = "http://www.roblox.com/asset/?id=6720842701"
+
+				local SelectedText = Instance.new("TextLabel", SelectedFrame)
+				SelectedText.AnchorPoint = Vector2.new(0, 0.5)
+				SelectedText.BackgroundTransparency = 1
+				SelectedText.BorderMode = Enum.BorderMode.Inset
+				SelectedText.BorderSizePixel = 5
+				SelectedText.Position = UDim2.new(0, 0, 0.5, 0)
+				SelectedText.Size = UDim2.new(1, -40, 1, 0)
+				SelectedText.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+				SelectedText.TextColor3 = Color3.fromRGB(166, 19, 0)
+				SelectedText.TextScaled = true
+				SelectedText.TextXAlignment = Enum.TextXAlignment.Left
+				SelectedText.Text = "None"
+
+				local UITSC = Instance.new("UITextSizeConstraint", SelectedText)
+				UITSC.MaxTextSize = 25
+				UITSC.MinTextSize = 1
+
+				local UILL = Instance.new("UIListLayout", ScrollingFrame)
+				UILL.Padding = UDim.new(0, 0)
+				UILL.FillDirection = Enum.FillDirection.Vertical
+				UILL.HorizontalAlignment = Enum.HorizontalAlignment.Left
+				UILL.SortOrder = Enum.SortOrder.LayoutOrder
+				UILL.VerticalAlignment = Enum.VerticalAlignment.Top
+
+				local Button1 = Instance.new("TextButton", SelectedFrame)
+				Button1.AnchorPoint = Vector2.new(1, 0.5)
+				Button1.BackgroundTransparency = 1
+				Button1.Position = UDim2.new(1, -10, 0.5, 0)
+				Button1.Size = UDim2.new(0, 20, 0, 20)
+				Button1.ZIndex = 2
+				Button1.Text = ""
+				
+				local Properties = {}
+				
+				Properties["Disabled"] = false
+				Properties["Selected"] = nil
+				Properties["Opened"] = false
+				Properties["_coroutineFuncCall"] = true
+				
+				local LastValue2 = Properties.Opened
+				
+				local function OnPressedOrChange(arg1)
+					if not Properties.Disabled or arg1 == "Override" then
+						if Properties.Opened and not (arg1 == "Override") then
+							
+							local Tween
+							local Tween2
+
+							if arg1 == "Changed" then
+								Tween = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 90})
+								Tween2 = TS:Create(ScrollingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 4, 0), ScrollBarImageTransparency = 0})
+							else
+								Tween = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 0})
+								Tween2 = TS:Create(ScrollingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 0, 0), ScrollBarImageTransparency = 1})
+							end
+
+							for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"]) do
+								v:Pause()
+								table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"], i)
+							end
+
+							for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"]) do
+								v:Pause()
+								table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"], i)
+							end
+
+							PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"][#PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"] + 1] = Tween
+							PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"] + 1] = Tween2
+
+							Tween:Play()
+							Tween2:Play()
+
+							if arg1 ~= "Changed" then
+								Properties.Opened = false
+								LastValue2 = false
+							end
+
+							coroutine.wrap(function()
+								wait(0.5)
+
+								for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"]) do
+									if v == Tween then
+										table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"], i)
+									end
+								end
+
+								for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"]) do
+									if v == Tween2 then
+										table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"], i)
+									end
+								end
+							end)()
+						else
+							local Tween
+							local Tween2
+
+							if arg1 == "Changed" or arg1 == "Override" then
+								Tween = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 0})
+								Tween2 = TS:Create(ScrollingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 0, 0), ScrollBarImageTransparency = 1})
+							else
+								Tween = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 90})
+								Tween2 = TS:Create(ScrollingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 4, 0), ScrollBarImageTransparency = 0})
+							end
+
+							for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"]) do
+								v:Pause()
+								table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"], i)
+							end
+
+							for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"]) do
+								v:Pause()
+								table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"], i)
+							end
+
+							PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"][#PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"] + 1] = Tween
+							PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"] + 1] = Tween2
+
+							Tween:Play()
+							Tween2:Play()
+
+							if arg1 ~= "Changed" and arg1 ~= "Override" then
+								Properties.Opened = true
+								LastValue2 = true
+							end
+
+							coroutine.wrap(function()
+								wait(0.5)
+
+								for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"]) do
+									if v == Tween then
+										table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorArrowRotation"], i)
+									end
+								end
+
+								for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"]) do
+									if v == Tween2 then
+										table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorSizeChange"], i)
+									end
+								end
+							end)()
+						end
+					end
+				end
+				
+				local function OnNewSelected()
+					local Button = FindButtonByY(ScrollingFrame)
+					
+					if Button then
+						local Text = Button.Text
+						
+						SelectedText.Text = Text
+						Properties.Selected = Text
+						
+						if Properties._coroutineFuncCall then
+							coroutine.wrap(FuncOnChoiced)(Text)
+						else
+							FuncOnChoiced(Text)
+						end
+					end
+				end
+				
+				function Properties:Add(name)
+					local BaseButton = Instance.new("TextButton", ScrollingFrame)
+					BaseButton.AnchorPoint = Vector2.new(0.5, 0.5)
+					BaseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+					BaseButton.BorderColor3 = Color3.fromRGB(145, 0, 0)
+					BaseButton.BorderSizePixel = 1
+					BaseButton.BackgroundTransparency = 0.7
+					BaseButton.Size = UDim2.new(1, 0, 0.25, 0)
+					BaseButton.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+					BaseButton.TextColor3 = Color3.fromRGB(166, 19, 0)
+					BaseButton.TextScaled = true
+					BaseButton.TextXAlignment = Enum.TextXAlignment.Left
+					BaseButton.Text = name
+					BaseButton.Name = name
+					BaseButton.ZIndex = 3
+					
+					local UITSC = Instance.new("UITextSizeConstraint", BaseButton)
+					UITSC.MaxTextSize = 25
+					UITSC.MinTextSize = 1
+					
+					BaseButton.MouseButton1Down:Connect(OnNewSelected)
+				end
+				
+				function Properties:Remove(name)
+					local Button = ScrollingFrame:FindFirstChild(name)
+					
+					if Button then
+						Button:Destroy()
+						if Properties.Selected == name then
+							Properties.Selected = nil
+							SelectedText.Text = "None"
+							
+							if Properties._coroutineFuncCall then
+								coroutine.wrap(FuncOnChoiced)(nil)
+							else
+								FuncOnChoiced(nil)
+							end
+						end
+					end
+				end
+				
+				Button1.MouseButton1Down:Connect(OnPressedOrChange)
+				
+				coroutine.wrap(function()
+					local LastValue = -1
+					local LastValue3 = Properties.Disabled
+
+					while game:GetService("RunService").RenderStepped:wait() do
+						if LastValue ~= #ScrollingFrame:GetChildren() - 1 then
+							LastValue = #ScrollingFrame:GetChildren() - 1
+
+							if LastValue > 4 then
+								ScrollingFrame.ScrollingEnabled = true
+								ScrollingFrame.CanvasSize = UDim2.new(0, 0, LastValue, 0)
+							else
+								ScrollingFrame.ScrollingEnabled = false
+								ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+							end
+						end
+						
+						if LastValue2 ~= Properties.Opened then
+							LastValue2 = Properties.Opened
+							
+							OnPressedOrChange("Changed")
+						end
+						
+						if LastValue3 ~= Properties.Disabled then
+							if Properties.Disabled == true then
+								Button1.Active = false
+								
+								local Tween1, Tween2, Tween3
+								
+								Tween1 = TS:Create(SelectedFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(40, 40, 40)})
+								Tween2 = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(40, 40, 40)})
+								Tween3 = TS:Create(SelectedText, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = Color3.fromRGB(40, 40, 40)})
+								
+								for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"]) do
+									v:Pause()
+									table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"], i)
+								end
+								
+								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween1
+								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween2
+								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween3
+
+								Tween1:Play()
+								Tween2:Play()
+								Tween3:Play()
+
+								coroutine.wrap(function()
+									wait(0.5)
+
+									for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"]) do
+										if v == Tween1 or v == Tween2 or v == Tween3 then
+											table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"], i)
+										end
+									end
+								end)()
+							else
+								Button1.Active = true
+
+								local Tween1, Tween2, Tween3
+
+								Tween1 = TS:Create(SelectedFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(145, 0, 0)})
+								Tween2 = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(166, 19, 0)})
+								Tween3 = TS:Create(SelectedText, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = Color3.fromRGB(166, 19, 0)})
+
+								for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"]) do
+									v:Pause()
+									table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"], i)
+								end
+
+								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween1
+								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween2
+								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween3
+
+								Tween1:Play()
+								Tween2:Play()
+								Tween3:Play()
+
+								coroutine.wrap(function()
+									wait(0.5)
+
+									for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"]) do
+										if v == Tween1 or v == Tween2 or v == Tween3 then
+											table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"], i)
+										end
+									end
+								end)()
+							end
+							
+							LastValue3 = Properties.Disabled
+							OnPressedOrChange("Override")
+						end
+					end
+				end)()
 				
 				return Properties
 			end
-			
+
 			return Functions
 		end
-		
+
 		return Functions
 	end
-	
+
 	return Functions
 end
 
@@ -874,26 +1300,26 @@ local new = loadstring(game:HttpGet("https://raw.githubusercontent.com/w1zlm/Gui
 -----------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------
 
-new() - Create menu, returns menu
+new() - Creates menu, returns menu
 local menu = new()
 
 -----------------------------------------------------------------------------------------------------------------
 
-menu.NewSection("Section") -- Create section, returns section
+menu.NewSection("Section") -- Creates a section, returns section that you just created
 the first argument is the text that will be displayed
 
 local section1 = menu.NewSection("Section")
 
 -----------------------------------------------------------------------------------------------------------------
 
-section.NewTab("Tab") -- Create tab, returns tab
+section.NewTab("Tab") -- Creates a tab, returns tab
 the first argument is the text that will be displayed
 
 local tab = section.NewTab("Tab")
 
 -----------------------------------------------------------------------------------------------------------------
 
-tab.AddButton("Button", Function) -- Create button, returns button properties
+tab.AddButton("Button", Function) -- Creates a button, returns button that you just created
 the first argument is the text that will be displayed
 
 "Function" is activated only when the button is pressed
@@ -913,7 +1339,7 @@ if its true, the "Function" will be called using coroutine
 
 -----------------------------------------------------------------------------------------------------------------
 
-tab.AddSwitch("Switch", Function1, Function2) -- Create switch, returns switch properties
+tab.AddSwitch("Switch", Function1, Function2) -- Creates a switch, returns switch that you just created
 the first argument is the text that will be displayed
 
 "Function1" is activated when switch turned off
@@ -946,10 +1372,10 @@ if its true, the "Function2" will be called using coroutine
 
 -----------------------------------------------------------------------------------------------------------------
 
-tab.AddSlider("Slider", Function) -- Create slider, returns slider properties
+tab.AddSlider("Slider", Function) -- Creates a slider, returns slider that you just created
 the first argument is the text that will be displayed
 
-"Function1" is activated when switch turned off
+"Function" is activated on any movement of the slider
 gives 1 argument: value
 
 local slider = tab.AddSlider("Slider", function(value)
@@ -970,6 +1396,44 @@ if its false, the slider cannot be moved
 Value - (standart - 0)
 
 _coroutineFuncCall - (standart - true)
-if its true, the "Function" will be called using coroutine
+if its true, all "Function" will be called using coroutine
+
+-----------------------------------------------------------------------------------------------------------------
+
+tab.AddSelector("Selector", Function) -- Creates a selector, returns selector that you just created
+the first argument is the text that will be displayed
+
+"Function" is activated on any change of the selected value
+gives 1 argument: text that player slected
+
+! warning !
+If the value got deleted using selector:Remove() then it is going to activate "Function" with first argument being nil!
+! warning !
+
+local selector = tab.AddSelector("Slider", function(text)
+	print(text)
+end)
+
+Also it got a function:
+
+selector:Add("Text") -- Adds a value that player can select to the selector
+"Text" is the text that will be displayed
+
+selector:Remove("Value text") -- Removes an already created value
+"Value text" is the text that is displaying by value
+
+selector properties:
+
+Disabled - (standart - false)
+if its true, the selected value cannot be changed
+
+Selected - (standart - nil)
+Value that is selected right now
+
+Opened - (standart - false)
+Is opened?
+
+_coroutineFuncCall - (standart - true)
+if its true, "Function" will be called using coroutine
 
 ]]
