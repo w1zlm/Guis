@@ -50,10 +50,16 @@ local UIS = game:GetService("UserInputService")
 
 local Holding = false
 
+local Gui
+
 UIS.InputBegan:Connect(function(input)
 	local inputType = input.UserInputType
 	if inputType == Enum.UserInputType.MouseButton1 then
 		Holding = true
+	elseif input.KeyCode == Enum.KeyCode.RightControl then
+		if Gui then
+			Gui.Enabled = not Gui.Enabled
+		end
 	end
 end)   
 
@@ -88,14 +94,14 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 	if DisabledSaturation == nil then
 		DisabledSaturation = Saturation
 	end
-	
+
 	local color1 = Color3.new(MainColor.R / (1.75 / Saturation), MainColor.G / (1.75 / Saturation), MainColor.B / (1.75 / Saturation))
 	local color2 = Color3.new(MainColor.R / (1.53 / Saturation), MainColor.G / (1.53 / Saturation), MainColor.B / (1.53 / Saturation))
 	local color3 = Color3.new(MainColor.R * Saturation, MainColor.G * Saturation, MainColor.B * Saturation)
 	local midColor = (MainColor.R * DisabledSaturation + MainColor.G * DisabledSaturation + MainColor.B * DisabledSaturation) / 3
 	local color4 = Color3.new(midColor / (5 / DisabledSaturation), midColor / (5 / DisabledSaturation), midColor / (5 / DisabledSaturation))
-	
-	local Gui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
+
+	Gui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
 	Gui.Name = __name__()
 
 	local Frame = Instance.new("Frame", Gui)
@@ -254,34 +260,34 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 
 		local UILL = Instance.new("UIListLayout", NewMenu)
 		UILL.Padding = UDim.new(0, 5)
-		
+
 		local LastTab
 		local TabAmount = 0
 		local PreLastTab
-		
+
 		local LastTabSelector
 		local PreLastTabSelector
-		
+
 		coroutine.wrap(function()
 			local Parent = NewMenu
 			local UILL1 = UILL
 
 			while game:GetService("RunService").RenderStepped:wait() do
 				local EndYSize = UILL1.AbsoluteContentSize.Y + UILL1.Padding.Offset
-				
+
 				if LastTabSelector then
 					local SelectedFrame = LastTabSelector.SelectedFrame
 					local ScrollingFrame = SelectedFrame.ScrollingFrame
-					
+
 					local EndResult = (LastTab.AbsolutePosition.Y + LastTab.UIListLayout.AbsoluteContentSize.Y) - (SelectedFrame.AbsolutePosition.Y + SelectedFrame.AbsoluteSize.Y)
 					EndResult = math.max(0, ScrollingFrame.AbsoluteSize.Y - EndResult)
-					
+
 					EndYSize = EndYSize + EndResult
 				elseif PreLastTabSelector then
 					local ScrollingFrame = PreLastTabSelector.SelectedFrame.ScrollingFrame
 					EndYSize = EndYSize + math.max(0, ScrollingFrame.AbsoluteSize.Y - (LastTab.AbsoluteSize.Y + UILL.Padding.Offset * 2))
 				end
-				
+
 				Parent.CanvasSize = UDim2.new(0, 0, 0, EndYSize)
 			end
 		end)()
@@ -291,13 +297,13 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 		}
 
 		Functions["NewTab"] = function(Name)
-			
+
 			local NewTab = Instance.new("Frame", NewMenu)
 			NewTab.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 			NewTab.BackgroundTransparency = 0.7
 			NewTab.BorderSizePixel = 0
 			NewTab.Size = UDim2.new(1, 0, 0, 100)
-			
+
 			PreLastTab = LastTab
 			LastTab = NewTab
 			PreLastTabSelector = LastTabSelector
@@ -307,7 +313,7 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 			UILL.Padding = UDim.new(0, 5)
 			UILL.SortOrder = Enum.SortOrder.LayoutOrder
 			UILL.Name = "UIListLayout"
-			
+
 			local NameLabel = Instance.new("TextLabel", NewTab)
 			NameLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 			NameLabel.BackgroundTransparency = 0.4
@@ -326,7 +332,7 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 			coroutine.wrap(function()
 				local Parent = NewTab
 				local UILL1 = UILL
-				
+
 				while game:GetService("RunService").RenderStepped:wait() do
 					Parent.Size = UDim2.new(1, 0, 0, UILL1.AbsoluteContentSize.Y + UILL1.Padding.Offset)
 				end
@@ -928,13 +934,13 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 					["SelectorArrowRotation"] = {},
 					["SelectorColorChange"] = {},
 				}
-				
+
 				local Selector = Instance.new("Frame", NewTab)
 				Selector.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 				Selector.BackgroundTransparency = 0.7
 				Selector.BorderSizePixel = 0
 				Selector.Size = UDim2.new(1, 0, 0, 50)
-				
+
 				if LastTab == NewTab then
 					LastTabSelector = Selector
 				end
@@ -1025,20 +1031,20 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 				Button1.Size = UDim2.new(0, 20, 0, 20)
 				Button1.ZIndex = 2
 				Button1.Text = ""
-				
+
 				local Properties = {}
-				
+
 				Properties["Disabled"] = false
 				Properties["Selected"] = nil
 				Properties["Opened"] = false
 				Properties["_coroutineFuncCall"] = true
-				
+
 				local LastValue2 = Properties.Opened
-				
+
 				local function OnPressedOrChange(arg1)
 					if not Properties.Disabled or arg1 == "Override" then
 						if Properties.Opened and not (arg1 == "Override") then
-							
+
 							local Tween
 							local Tween2
 
@@ -1137,16 +1143,16 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 						end
 					end
 				end
-				
+
 				local function OnNewSelected()
 					local Button = FindButtonByY(ScrollingFrame)
-					
+
 					if Button then
 						local Text = Button.Text
-						
+
 						SelectedText.Text = Text
 						Properties.Selected = Text
-						
+
 						if Properties._coroutineFuncCall then
 							coroutine.wrap(FuncOnChoiced)(Text)
 						else
@@ -1154,7 +1160,7 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 						end
 					end
 				end
-				
+
 				function Properties:Add(name)
 					local BaseButton = Instance.new("TextButton", ScrollingFrame)
 					BaseButton.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -1170,23 +1176,23 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 					BaseButton.Text = name
 					BaseButton.Name = name
 					BaseButton.ZIndex = 3
-					
+
 					local UITSC = Instance.new("UITextSizeConstraint", BaseButton)
 					UITSC.MaxTextSize = 25
 					UITSC.MinTextSize = 1
-					
+
 					BaseButton.MouseButton1Down:Connect(OnNewSelected)
 				end
-				
+
 				function Properties:Remove(name)
 					local Button = ScrollingFrame:FindFirstChild(name)
-					
+
 					if Button then
 						Button:Destroy()
 						if Properties.Selected == name then
 							Properties.Selected = nil
 							SelectedText.Text = "None"
-							
+
 							if Properties._coroutineFuncCall then
 								coroutine.wrap(FuncOnChoiced)(nil)
 							else
@@ -1195,9 +1201,9 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 						end
 					end
 				end
-				
+
 				Button1.MouseButton1Down:Connect(OnPressedOrChange)
-				
+
 				coroutine.wrap(function()
 					local LastValue = -1
 					local LastValue3 = Properties.Disabled
@@ -1214,29 +1220,29 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 								ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 							end
 						end
-						
+
 						if LastValue2 ~= Properties.Opened then
 							LastValue2 = Properties.Opened
-							
+
 							OnPressedOrChange("Changed")
 						end
-						
+
 						if LastValue3 ~= Properties.Disabled then
 							if Properties.Disabled == true then
 								Button1.Active = false
-								
+
 								local Tween1, Tween2, Tween3, Tween4
-								
+
 								Tween1 = TS:Create(SelectedFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color4})
 								Tween2 = TS:Create(ScrollingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color4})
 								Tween3 = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = color4})
 								Tween4 = TS:Create(SelectedText, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = color4})
-								
+
 								for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"]) do
 									v:Pause()
 									table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"], i)
 								end
-								
+
 								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween1
 								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween2
 								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween3
@@ -1291,13 +1297,13 @@ local function new(MainColor : Color3, Saturation : number, DisabledSaturation :
 									end
 								end)()
 							end
-							
+
 							LastValue3 = Properties.Disabled
 							OnPressedOrChange("Override")
 						end
 					end
 				end)()
-				
+
 				return Properties
 			end
 
