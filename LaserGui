@@ -78,7 +78,23 @@ local function FindButtonByY(Folder)
 	return nil
 end
 
-local function new()
+local function new(MainColor : Color3, Saturation : number, DisabledSaturation : number)
+	if MainColor == nil then
+		MainColor = Color3.new(1, 0, 0)
+	end
+	if Saturation == nil then
+		Saturation = 1
+	end
+	if DisabledSaturation == nil then
+		DisabledSaturation = Saturation
+	end
+	
+	local color1 = Color3.new(MainColor.R / (1.75 / Saturation), MainColor.G / (1.75 / Saturation), MainColor.B / (1.75 / Saturation))
+	local color2 = Color3.new(MainColor.R / (1.53 / Saturation), MainColor.G / (1.53 / Saturation), MainColor.B / (1.53 / Saturation))
+	local color3 = Color3.new(MainColor.R * Saturation, MainColor.G * Saturation, MainColor.B * Saturation)
+	local midColor = (MainColor.R * DisabledSaturation + MainColor.G * DisabledSaturation + MainColor.B * DisabledSaturation) / 3
+	local color4 = Color3.new(midColor / (5 / DisabledSaturation), midColor / (5 / DisabledSaturation), midColor / (5 / DisabledSaturation))
+	
 	local Gui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
 	Gui.Name = __name__()
 
@@ -104,8 +120,8 @@ local function new()
 	BorderDW2.Name = "Border dw 2"
 	BorderDW2.AnchorPoint = Vector2.new(0, 1)
 	BorderDW2.BackgroundTransparency = 0
-	BorderDW2.BackgroundColor3 = Color3.fromRGB(145, 0, 0)
-	BorderDW2.BorderColor3 = Color3.fromRGB(145, 0, 0)
+	BorderDW2.BackgroundColor3 = color1
+	BorderDW2.BorderColor3 = color1
 	BorderDW2.BorderMode = Enum.BorderMode.Outline
 	BorderDW2.BorderSizePixel = 1
 	BorderDW2.Position = UDim2.new(0, 0, 1, -10)
@@ -126,8 +142,8 @@ local function new()
 	BorderUP2.Name = "Border up 2"
 	BorderUP2.AnchorPoint = Vector2.new(0, 0)
 	BorderUP2.BackgroundTransparency = 0
-	BorderUP2.BackgroundColor3 = Color3.fromRGB(145, 0, 0)
-	BorderUP2.BorderColor3 = Color3.fromRGB(145, 0, 0)
+	BorderUP2.BackgroundColor3 = color1
+	BorderUP2.BorderColor3 = color1
 	BorderUP2.BorderMode = Enum.BorderMode.Outline
 	BorderUP2.BorderSizePixel = 1
 	BorderUP2.Position = UDim2.new(0, 0, 0, 10)
@@ -206,11 +222,11 @@ local function new()
 		Section.BorderMode = Enum.BorderMode.Inset
 		Section.BorderSizePixel = 5
 		Section.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-		Section.TextColor3 = Color3.fromRGB(255, 25, 0)
+		Section.TextColor3 = color3
 		Section.Text = Name
 		Section.TextScaled = true
 		Section.TextSize = 25
-		Section.TextStrokeColor3 = Color3.fromRGB(255, 25, 0)
+		Section.TextStrokeColor3 = color3
 		Section.TextStrokeTransparency = 1
 
 		local UITSC = Instance.new("UITextSizeConstraint", Section)
@@ -299,9 +315,9 @@ local function new()
 			NameLabel.Size = UDim2.new(1, 0, 0, 40)
 			NameLabel.Text = Name
 			NameLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-			NameLabel.TextColor3 = Color3.fromRGB(255, 25, 0)
+			NameLabel.TextColor3 = color3
 			NameLabel.TextScaled = true
-			NameLabel.TextStrokeColor3 = Color3.fromRGB(255, 25, 0)
+			NameLabel.TextStrokeColor3 = color3
 
 			local UITSC = Instance.new("UITextSizeConstraint", NameLabel)
 			UITSC.MaxTextSize = 25
@@ -344,9 +360,9 @@ local function new()
 				Button.Size = UDim2.new(1, 0, 0, 50)
 				Button.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
 				Button.Text = Text
-				Button.TextColor3 = Color3.fromRGB(166, 19, 0)
+				Button.TextColor3 = color2
 				Button.TextScaled = true
-				Button.TextStrokeColor3 = Color3.fromRGB(166, 19, 0)
+				Button.TextStrokeColor3 = color2
 
 				local UITSC = Instance.new("UITextSizeConstraint", Button)
 				UITSC.MaxTextSize = 25
@@ -374,7 +390,7 @@ local function new()
 								Button.AutoButtonColor = false
 								Button.Active = false
 
-								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {TextColor3 = Color3.fromRGB(40, 40, 40)})
+								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {TextColor3 = color4})
 
 								for i, v in pairs(PlayingTweens["Buttons"][ButtonId]["TextColorChange"]) do
 									v:Pause()
@@ -398,7 +414,7 @@ local function new()
 								Button.AutoButtonColor = true
 								Button.Active = true
 
-								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {TextColor3 = Color3.fromRGB(166, 19, 0)})
+								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {TextColor3 = color2})
 
 								for i, v in pairs(PlayingTweens["Buttons"][ButtonId]["TextColorChange"]) do
 									v:Pause()
@@ -447,11 +463,11 @@ local function new()
 				SwitchFrame.BorderSizePixel = 2
 				SwitchFrame.Size = UDim2.new(0.2, 0, 0.75, 0)
 				SwitchFrame.Position = UDim2.new(1, -20, 0.5, 0)
-				SwitchFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				SwitchFrame.BorderColor3 = color1
 				SwitchFrame.AnchorPoint = Vector2.new(1, 0.5)
 
 				local Button = Instance.new("TextButton", SwitchFrame)
-				Button.BackgroundColor3 = Color3.fromRGB(145, 0, 0)
+				Button.BackgroundColor3 = color1
 				Button.BackgroundTransparency = 0
 				Button.BorderSizePixel = 0
 				Button.Size = UDim2.new(0.4, 0, 0.75, 0)
@@ -469,7 +485,7 @@ local function new()
 				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
 				TextLabel.Text = Text
 				TextLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-				TextLabel.TextColor3 = Color3.fromRGB(166, 19, 0)
+				TextLabel.TextColor3 = color2
 				TextLabel.TextScaled = true
 
 				local UITSC = Instance.new("UITextSizeConstraint", TextLabel)
@@ -503,7 +519,7 @@ local function new()
 								if Properties.Toggled then
 									PropertyTable.BackgroundColor3 = Color3.fromRGB(0, 145, 0)
 								else
-									PropertyTable.BackgroundColor3 = Color3.fromRGB(145, 0, 0)
+									PropertyTable.BackgroundColor3 = color1
 								end
 
 								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), PropertyTable)
@@ -530,7 +546,7 @@ local function new()
 								Button.AutoButtonColor = false
 								Button.Active = false
 
-								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)})
+								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundColor3 = color4})
 
 								for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchColorChange"]) do
 									v:Pause()
@@ -570,7 +586,7 @@ local function new()
 							local Tween
 
 							if arg1 == "Changed" then
-								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0.05, 0, 0.5, 0), BackgroundColor3 = Color3.fromRGB(145, 0, 0)})
+								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0.05, 0, 0.5, 0), BackgroundColor3 = color1})
 							else
 								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.95, 0, 0.5, 0), BackgroundColor3 = Color3.fromRGB(0, 145, 0)})
 							end
@@ -618,7 +634,7 @@ local function new()
 							if arg1 == "Changed" then
 								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.95, 0, 0.5, 0), BackgroundColor3 = Color3.fromRGB(0, 145, 0)})
 							else
-								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0.05, 0, 0.5, 0), BackgroundColor3 = Color3.fromRGB(145, 0, 0)})
+								Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0.05, 0, 0.5, 0), BackgroundColor3 = color1})
 							end
 
 							for i, v in pairs(PlayingTweens["Switches"][SwitchID]["SwitchMovement"]) do
@@ -697,14 +713,14 @@ local function new()
 				SliderFrame.BorderSizePixel = 2
 				SliderFrame.Size = UDim2.new(0.8, 0, 0.1, 0)
 				SliderFrame.Position = UDim2.new(0.5, 0, 0.8, 0)
-				SliderFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				SliderFrame.BorderColor3 = color1
 				SliderFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 
 				local Button = Instance.new("TextButton", SliderFrame)
 				Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 				Button.BackgroundTransparency = 0
 				Button.BorderSizePixel = 2
-				Button.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				Button.BorderColor3 = color1
 				Button.Size = UDim2.new(0.058, 0, 5, 0)
 				Button.Position = UDim2.new(0, 0, 0.5, 0)
 				Button.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -723,7 +739,7 @@ local function new()
 				NameLabel.Position = UDim2.new(0.2, 0, 0.3, 0)
 				NameLabel.Text = Text
 				NameLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-				NameLabel.TextColor3 = Color3.fromRGB(166, 19, 0)
+				NameLabel.TextColor3 = color2
 				NameLabel.TextScaled = true
 
 				local UITSC = Instance.new("UITextSizeConstraint", NameLabel)
@@ -739,7 +755,7 @@ local function new()
 				ValueLabel.Position = UDim2.new(0.8, 0, 0.3, 0)
 				ValueLabel.Text = "0"
 				ValueLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-				ValueLabel.TextColor3 = Color3.fromRGB(166, 19, 0)
+				ValueLabel.TextColor3 = color2
 				ValueLabel.TextScaled = true
 
 				local UITSC = Instance.new("UITextSizeConstraint", ValueLabel)
@@ -803,8 +819,8 @@ local function new()
 								Button.AutoButtonColor = false
 								Button.Active = false
 
-								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(40, 40, 40)})
-								local Tween2 = TS:Create(SliderFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(40, 40, 40)})
+								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color4})
+								local Tween2 = TS:Create(SliderFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color4})
 
 								for i, v in pairs(PlayingTweens["Sliders"][SliderID]["SliderColorChange"]) do
 									v:Pause()
@@ -830,8 +846,8 @@ local function new()
 								Button.AutoButtonColor = true
 								Button.Active = true
 
-								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(145, 0, 0)})
-								local Tween2 = TS:Create(SliderFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(145, 0, 0)})
+								local Tween = TS:Create(Button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color1})
+								local Tween2 = TS:Create(SliderFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color1})
 
 
 								for i, v in pairs(PlayingTweens["Sliders"][SliderID]["SliderColorChange"]) do
@@ -926,7 +942,7 @@ local function new()
 				local SelectedFrame = Instance.new("Frame", Selector)
 				SelectedFrame.AnchorPoint = Vector2.new(1, 0.5)
 				SelectedFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-				SelectedFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				SelectedFrame.BorderColor3 = color1
 				SelectedFrame.BorderSizePixel = 2
 				SelectedFrame.BackgroundTransparency = 0.7
 				SelectedFrame.Position = UDim2.new(1, -20, 0.5, 0)
@@ -942,7 +958,7 @@ local function new()
 				TextLabel.Position = UDim2.new(0, 0, 0.5, 0)
 				TextLabel.Text = Text
 				TextLabel.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-				TextLabel.TextColor3 = Color3.fromRGB(166, 19, 0)
+				TextLabel.TextColor3 = color2
 				TextLabel.TextScaled = true
 				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -953,7 +969,7 @@ local function new()
 				local ScrollingFrame = Instance.new("ScrollingFrame", SelectedFrame)
 				ScrollingFrame.AnchorPoint = Vector2.new(1, 0)
 				ScrollingFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-				ScrollingFrame.BorderColor3 = Color3.fromRGB(145, 0, 0)
+				ScrollingFrame.BorderColor3 = color1
 				ScrollingFrame.BorderSizePixel = 2
 				ScrollingFrame.BackgroundTransparency = 0.7
 				ScrollingFrame.Position = UDim2.new(1, 0, 1, 2)
@@ -967,7 +983,7 @@ local function new()
 				ImageLabel.BackgroundTransparency = 1
 				ImageLabel.Position = UDim2.new(1, -10, 0.5, 0)
 				ImageLabel.Size = UDim2.new(0, 20, 0, 20)
-				ImageLabel.ImageColor3 = Color3.fromRGB(166, 19, 0)
+				ImageLabel.ImageColor3 = color2
 				ImageLabel.Image = "http://www.roblox.com/asset/?id=6720842701"
 
 				local ImageLabel2 = Instance.new("ImageLabel", ImageLabel)
@@ -986,7 +1002,7 @@ local function new()
 				SelectedText.Position = UDim2.new(0, 0, 0.5, 0)
 				SelectedText.Size = UDim2.new(1, -40, 1, 0)
 				SelectedText.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-				SelectedText.TextColor3 = Color3.fromRGB(166, 19, 0)
+				SelectedText.TextColor3 = color2
 				SelectedText.TextScaled = true
 				SelectedText.TextXAlignment = Enum.TextXAlignment.Left
 				SelectedText.Text = "None"
@@ -1143,12 +1159,12 @@ local function new()
 					local BaseButton = Instance.new("TextButton", ScrollingFrame)
 					BaseButton.AnchorPoint = Vector2.new(0.5, 0.5)
 					BaseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-					BaseButton.BorderColor3 = Color3.fromRGB(145, 0, 0)
+					BaseButton.BorderColor3 = color1
 					BaseButton.BorderSizePixel = 1
 					BaseButton.BackgroundTransparency = 0.7
 					BaseButton.Size = UDim2.new(1, 0, 0.25, 0)
 					BaseButton.FontFace = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-					BaseButton.TextColor3 = Color3.fromRGB(166, 19, 0)
+					BaseButton.TextColor3 = color2
 					BaseButton.TextScaled = true
 					BaseButton.TextXAlignment = Enum.TextXAlignment.Left
 					BaseButton.Text = name
@@ -1209,11 +1225,12 @@ local function new()
 							if Properties.Disabled == true then
 								Button1.Active = false
 								
-								local Tween1, Tween2, Tween3
+								local Tween1, Tween2, Tween3, Tween4
 								
-								Tween1 = TS:Create(SelectedFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(40, 40, 40)})
-								Tween2 = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(40, 40, 40)})
-								Tween3 = TS:Create(SelectedText, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = Color3.fromRGB(40, 40, 40)})
+								Tween1 = TS:Create(SelectedFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color4})
+								Tween2 = TS:Create(ScrollingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color4})
+								Tween3 = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = color4})
+								Tween4 = TS:Create(SelectedText, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = color4})
 								
 								for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"]) do
 									v:Pause()
@@ -1223,16 +1240,18 @@ local function new()
 								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween1
 								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween2
 								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween3
+								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween4
 
 								Tween1:Play()
 								Tween2:Play()
 								Tween3:Play()
+								Tween4:Play()
 
 								coroutine.wrap(function()
 									wait(0.5)
 
 									for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"]) do
-										if v == Tween1 or v == Tween2 or v == Tween3 then
+										if v == Tween1 or v == Tween2 or v == Tween3 or v == Tween4 then
 											table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"], i)
 										end
 									end
@@ -1240,11 +1259,12 @@ local function new()
 							else
 								Button1.Active = true
 
-								local Tween1, Tween2, Tween3
+								local Tween1, Tween2, Tween3, Tween4
 
-								Tween1 = TS:Create(SelectedFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = Color3.fromRGB(145, 0, 0)})
-								Tween2 = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(166, 19, 0)})
-								Tween3 = TS:Create(SelectedText, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = Color3.fromRGB(166, 19, 0)})
+								Tween1 = TS:Create(SelectedFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color1})
+								Tween2 = TS:Create(ScrollingFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BorderColor3 = color1})
+								Tween3 = TS:Create(ImageLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = color2})
+								Tween4 = TS:Create(SelectedText, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = color2})
 
 								for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"]) do
 									v:Pause()
@@ -1254,16 +1274,18 @@ local function new()
 								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween1
 								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween2
 								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween3
+								PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"][#PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"] + 1] = Tween4
 
 								Tween1:Play()
 								Tween2:Play()
 								Tween3:Play()
+								Tween4:Play()
 
 								coroutine.wrap(function()
 									wait(0.5)
 
 									for i, v in pairs(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"]) do
-										if v == Tween1 or v == Tween2 or v == Tween3 then
+										if v == Tween1 or v == Tween2 or v == Tween3 or v == Tween4 then
 											table.remove(PlayingTweens["Selectors"][SelectorID]["SelectorColorChange"], i)
 										end
 									end
@@ -1293,15 +1315,19 @@ end
 Instructions
 
 to load with loadstring:
-local new = loadstring(game:HttpGet("https://raw.githubusercontent.com/w1zlm/Guis/main/LaserGui"))()
+local new = loadstring(game:HttpGet("https://raw.githubusercontent.com/w1zlm/Guis/main/LaserGui") .. "return new")()
 
 -----------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------
 
-new() - Creates menu, returns menu
-local menu = new()
+new(MainColor (Color3), Saturation (Number), DisabledSaturation (Number)) - Creates menu, returns menu
+MainColor - MainColor (Standartard is Color3.new(1, 0, 0))
+Saturation - Saturation (Standartard is 1)
+DisabledSaturation - Saturation that is applied for disabled buttons (Standartard is 1)
+
+local menu = new(Color3.new(1, 0, 0), 1, 2)
 
 -----------------------------------------------------------------------------------------------------------------
 
@@ -1437,3 +1463,4 @@ _coroutineFuncCall - (standart - true)
 if its true, "Function" will be called using coroutine
 
 ]]
+
